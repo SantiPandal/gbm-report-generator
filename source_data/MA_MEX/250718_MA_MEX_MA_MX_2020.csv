@@ -1,0 +1,80 @@
+Deal Type,Announce Date,Target Name,Acquirer Name,Seller Name,Announced Total Value (mil.),Payment Type,TV/EBITDA,Deal Status,Target Industry Sector,Completion/Termination Date
+M&A,2020-01-10,Vinyl Business / Orbia,Apollo Asset Management Inc,Orbia Advance Corp SAB de CV,4000.0,Cash, ,Withdrawn,Consumer Discretionary,2020-07-31
+M&A,2019-03-22,Insurance businesses/Banco Bilbao Vizcaya Argentaria SA,Potential Buyer,Banco Bilbao Vizcaya Argentaria SA,1694.55,Cash, ,Withdrawn,Financials,2020-04-08
+M&A,2019-09-10,Deepwater assets/Gulf of Mexico,Repsol SA,Exxon Mobil Corp,1000.0,Cash, ,Withdrawn,Energy,2020-03-09
+M&A,2019-09-23,Mexican Factory Parks,Fibra Uno Administracion SA de CV,FINSACK 12 / DEVELOPMENT EQUITY CERTIFICATES,850.0,Cash, ,Withdrawn,Real Estate,2020-03-21
+M&A,2019-12-11,Gulf of Mexico portfolio/ILX Holdings LLC,Talos Energy Inc,ILX Holdings LLC,554.9,Cash and Stock, ,Completed,N.A.,2020-03-02
+M&A,2019-10-11,Delivery Technologies SpA,Uber Technologies Inc,,450.0,Cash and Stock, ,Completed,Technology,2020-06-30
+M&A,2020-04-06,Premier Logistics Space/ Mexico City,Prologis Property Mexico SA de CV,,353.0,Cash, ,Completed,Real Estate,2020-04-06
+M&A,2019-07-24,OCESA Entretenimiento SA de CV,Live Nation Entertainment Inc,Corp Interamericana de Entretenimiento SAB de CV,190.38,Cash, ,Terminated,Communications,2020-05-26
+M&A,2019-10-04,Data centers/MX,Equinix Inc,Axtel SAB de CV,175.0,Cash, ,Completed,Technology,2020-01-09
+M&A,2019-09-19,Business Operations/Mexico,Perenco Oil & Gas International Ltd,Petrofac Ltd,150.14,Cash, ,Completed,Energy,2020-11-03
+M&A,2020-01-27,Best Day Travel Group,Despegar.com Corp,TravelPass Group LLC,56.5,Cash, ,Completed,Communications,2020-10-01
+M&A,2019-08-05,BLSM Latino America Servicios SA de CV,Betterware de Mexico SAPI de C,"Campalier SA de CV,Promotora Forteza SA de CV,Strevo SA de CV",56.2,Stock, ,Completed,Consumer Discretionary,2020-03-13
+M&A,2020-12-21,2 Class A Buildings/Mexico,Prologis Property Mexico SA de CV,,54.4,Cash, ,Completed,Real Estate,2020-12-21
+M&A,2019-12-19,Structural Components for Passenger Cars operations/Metalsa SA de CV,Martinrea International Inc,Grupo Proeza SA de CV,19.5,Cash, ,Completed,Consumer Discretionary,2020-03-02
+M&A,2020-06-22,Cerro Las Minitas project,Southern Silver Exploration Corp,Electrum Global Holdings LP,15.0,Cash and Stock, ,Completed,Materials,2020-09-16
+M&A,2020-07-15,Anionic surfactant business & associated sulfation equipment/Santa Clara,Stepan Co,Clariant AG,14.0,Cash, ,Completed,Materials,2020-09-17
+M&A,2019-11-27,Hotel Wyndham Garden Leon/Fibra Inn,Capitali Grupo Hotelero,Asesor de Activos Prisma SAPI de CV,7.16,Cash, ,Pending,Consumer Discretionary,2020-02-29
+M&A,2020-03-31,36 chain of pawn stores,FirstCash Inc,,7.0,Cash, ,Completed,Real Estate,2020-03-31
+M&A,2020-02-22,Celadon Mexicana SA de CV,PAMT CORP,Celadon Group Inc,7.0,Cash, ,Withdrawn,Unclassifiable,2020-08-24
+M&A,2020-01-06,41779 sq ft infill logistic space/Mexico City,Prologis Property Mexico SA de CV,,5.3,Cash, ,Completed,Industrials,2020-01-06
+M&A,2020-11-10,Margarita Silver Project/Chihuahua,Magna Gold Corp,Sable Resources Ltd,4.57,Cash and Stock, ,Completed,Materials,2020-11-18
+M&A,2020-08-06,San Javier copper-gold project/Sonora,Barksdale Resources Corp,Tusk Exploration Ltd,4.04,Cash and Stock, ,Pending,Materials,2020-08-31
+M&A,2020-06-23,2 logistics properties/Mexico City & Guadalajara,FIBRA Prologis,,4.04,Cash, ,Completed,Real Estate,2020-06-23
+M&A,2020-07-14,Portfolio of 28 towers/Mexico,Unnamed Buyer,Tower One Wireless Corp,2.8,Cash, ,Completed,Consumer Discretionary,2020-07-14
+M&A,2020-03-04,Cuautitlan Industrial Plant/Chemtura,Private Investor,LANXESS AG,2.46,Cash, ,Completed,Real Estate,2020-03-04
+M&A,2020-11-03,Samalayuca Cobre SA de CV,VVC Exploration Corp,"Ressources Orford Inc,Inversiones Agrofinancieras de Panama SA,Micose SA de CV",1.67,Cash and Stock, ,Completed,Industrials,2020-12-24
+M&A,2020-08-27,El Picacho Property/Las Chispas,SilverCrest Metals Inc,American Metal Mining SA de CV,1.6,Cash, ,Completed,Materials,2020-08-27
+M&A,2019-09-30,San Judas Project,Magna Gold Corp,,1.28,Cash, ,Completed,Materials,2020-01-09
+M&A,2020-10-27,High potential mineral property/Colima,Asia Broadband Inc,,1.1,Cash, ,Completed,Materials,2020-10-27
+M&A,2020-06-23,Jalisco Group of Properties/The,Apollo Silver Corp,First Majestic Silver Corp,0.75,Cash and Stock, ,Withdrawn,Materials,2020-12-23
+M&A,2020-11-18,La Sanguijuela concession/Jalisco State,Endeavour Silver Corp,,0.55,Cash, ,Completed,Materials,2020-11-18
+M&A,2020-02-25,Naranjillo Project,Fresnillo PLC,Plata Latina Minerals Corp,0.5,Cash, ,Completed,Materials,2020-02-24
+M&A,2020-04-03,El Sol Mineral Claim,Southern Silver Exploration Corp,Monarca Minerals Inc,0.3,Cash, ,Completed,Materials,2020-08-10
+M&A,2020-02-20,"2 penitentiaries/Ocampo & Hermosillo,Paseo-Palmillas toll rd,Water treatment plant/Zapopan,Aqueduct/San Luis Potosi,Aqueduct/Queretaro",Mexico Infrastructure Partners SA de CV,Empresas ICA SAB de CV,0.0,Cash, ,Completed,"Real Estate, Real Estate, Utilities, Utilities, Utilities",2020-02-20
+M&A,2019-12-20,Cutting Tool Division/ Quimmco Centro Tecnologico,Sandvik AB,Quimmco SA de CV,,Cash, ,Completed,N.A.,2020-06-01
+M&A,2019-12-11,Gulf of Mexico portfolio/Castex Energy Inc,Talos Energy Inc,Castex Energy Inc,,Cash, ,Completed,Energy,2020-03-16
+M&A,2019-12-11,Gulf of Mexico portfolio/Venari Resources LLC,Talos Energy Inc,Venari Resources LLC,,Cash, ,Pending,Energy,2020-03-16
+M&A,2019-12-16,Megafarma SA de CV,Azelis SA,,,Undisclosed, ,Completed,Materials,2020-01-21
+M&A,2019-12-22,Socofar,Fomento Economico Mexicano SAB de CV,ICC Inversiones Ltda,,Undisclosed, ,Completed,Consumer Staples,2020-01-31
+M&A,2019-10-15,Red de Carreteras de Occidente SAB de CV,"HOCHTIEF AG,GIC Pte Ltd",Goldman Sachs Group Inc/The,,Undisclosed, ,Completed,Industrials,2020-06-05
+M&A,2019-10-11,Red de Carreteras de Occidente S de RL de CV,"GIC Pte Ltd,Atlantia SpA","GS Infrastructure Partners (Fund: GS Infrastructure Partners I LP),GS Infrastructure Partners (Fund: GS Infrastructure Partners II LP)",,Cash and Debt, ,Completed,Industrials,2020-06-05
+M&A,2020-01-09,Certain assets/Mexico,Potential Buyer,McEwen Inc,,Cash, ,Withdrawn,Materials,2020-01-09
+M&A,2020-01-09,First Kontact LLC,Advantage Communications Inc,,,Undisclosed, ,Completed,Technology,2020-01-09
+M&A,2020-01-28,Manufacturing facility in Guaymas/Mexico,Libra Industries Inc/OH,Benchmark Electronics Inc,,Cash, ,Completed,Industrials,2020-01-28
+M&A,2020-02-10,Apple 3 Group SA de CV,Quad/Graphics Inc,,,Undisclosed, ,Completed,Communications,2020-01-22
+M&A,2020-02-18,CEMEX Hrvatska dd,Nexe Grupa DD,,,Undisclosed, ,Pending,Materials,2020-02-29
+M&A,2020-02-18,Atmosphera Verde SA de CV,Direct Pack Inc,,,Undisclosed, ,Completed,Industrials,2020-02-18
+M&A,2020-02-20,C&A Mexico S de RL,Grupo Axo SAPI de CV,Delbora Investments AG,,Undisclosed, ,Completed,Consumer Discretionary,2020-02-20
+M&A,2020-03-02,Zimmer SA de CV,Steel Dynamics Inc,,,Cash, ,Completed,Industrials,2020-08-03
+M&A,2020-03-05,Footwear product line/Henkel Adhesives Technologies India Pvt Ltd,WF Holdings Inc,Henkel AG & Co KGaA,,Cash, ,Completed,Consumer Discretionary,2020-03-05
+M&A,2020-03-18,Hyperion Digital Group S de RL de CV,Obocon Inc,,,Undisclosed, ,Completed,Communications,2020-03-18
+M&A,2020-03-30,Cerro Cascaron project,Harvest Gold Corp,Orogen Royalties Inc,,Cash, ,Terminated,Materials,2020-03-30
+M&A,2020-03-13,3 logistics asset/Guadalajara,"Kefren Capital Real Estate SL,Tristan Capital Partners LLP (Fund: European Property Investors Special Opportunities 5 Scsp-Sicav-Sif)",Gusset SA,,Cash, ,Completed,Industrials,2020-03-13
+M&A,2020-10-22,Unnamed Target,FreightCar America Inc,Fabricaciones y Servicios de Mexico SA de CV,,Undisclosed, ,Completed,N.A.,2020-10-22
+M&A,2020-10-08,"Obrador San Pancho SA de CV,Reamp/Brazil",Jellyfish UK Ltd,,,Undisclosed, ,Completed,"Consumer Staples, Communications",2020-10-08
+M&A,2020-10-19,Expandable Styrenics Business/ALPEK SA DE C,Alpek SAB de CV,Emirate of Abu Dhabi United Arab Emirates,,Cash, ,Pending,Materials,2020-12-31
+M&A,2020-10-26,Mexican trust business/Deutsche Bank AG,CIBanco SA,Deutsche Bank AG,,Cash, ,Completed,Industrials,2020-10-26
+M&A,2020-08-18,Newpek LLC,"Reliance Industries Ltd,Ensign Operating LLC",Alfa SAB de CV,,Undisclosed, ,Completed,Energy,2020-08-18
+M&A,2020-08-10,ConCredito,Gentera SAB de CV,,,Undisclosed, ,Completed,Technology,2020-08-10
+M&A,2020-08-24,1200km offshore fibre cable system/Mexico,Tampnet AS,BP Exploration & Production Inc,,Cash, ,Pending,Communications,2020-12-31
+M&A,2020-09-23,Expresion En Software SA De CV,2ndSite Inc,,,Undisclosed, ,Completed,Technology,2020-09-23
+M&A,2020-10-01,Exploradora La Reyna SA de CV,Reyna Silver Corp,,,Undisclosed, ,Completed,Materials,2020-10-01
+M&A,2020-07-02,D9C Mexico SA de CV,Ikanik Farms Inc,,,Stock, ,Completed,Industrials,2020-07-02
+M&A,2020-07-29,Shenandoah project/Gulf of Mexico,Beacon Offshore Energy LLC,LLOG Exploration Co LLC,,Cash, ,Pending,Energy,2020-09-30
+M&A,2020-05-06,Marketing Sensorial Mexico SAPI de CV,Stingray Group Inc,,,Undisclosed, ,Completed,Communications,2020-05-06
+M&A,2020-06-01,Cutting tools division/QCT,Sandvik AB,Quimmco SA de CV,,Cash, ,Completed,Industrials,2020-06-01
+M&A,2020-12-02,Mexico Division/C-R Machine Co Inc,Ichor Holdings Ltd,C-R Machine Co Inc,,Cash, ,Completed,Industrials,2020-12-01
+M&A,2020-12-04,"Millikan SA de CV,Banner Quimica SA de CV",IMCD NV,,,Undisclosed, ,Completed,"Consumer Staples, Consumer Staples",2020-12-04
+M&A,2020-12-04,"Sesamee Mexicana SA de CV,Eberworld SA de CV",Management Group,Eastern Co/The,,Cash, ,Completed,"Industrials, Industrials",2020-12-04
+M&A,2020-12-07,Industrial Papelera Venus SA de CV,Fabric BC Sarl,,,Undisclosed, ,Completed,Materials,2020-12-07
+M&A,2020-12-17,Contact Industries SA de CV,Oatey Co,,,Undisclosed, ,Completed,Consumer Discretionary,2020-12-17
+M&A,2020-12-07,GX Technology SAPI de CV,Konfio Ltd,,,Undisclosed, ,Completed,Technology,2020-12-07
+M&A,2020-11-02,Global aftermarket filters business/Mexico,Premium Guard Inc,Tenneco Inc,,Cash, ,Completed,Consumer Discretionary,2020-10-31
+M&A,2020-11-18,Cerro Gordo concessions/Jalisco State,Endeavour Silver Corp,,,Cash, ,Completed,Materials,2020-11-18
+M&A,2020-11-30,Mazda de Mexico Vehicle Operation,Mazda Motor Corp,Sumitomo Corp,,Undisclosed, ,Pending,Consumer Discretionary,2020-12-31
+M&A,2019-11-21,Controladora Mabe SA de CV,Haier Group Corp,,,Undisclosed, ,Withdrawn,Consumer Discretionary,2020-05-21
+M&A,2020-06-18,Grupo Villacero SA,Altos Hornos de Mexico SA de CV,,,Undisclosed, ,Withdrawn,Materials,2020-12-18
+M&A,2020-02-27,Tuna assets,Potential Buyer,Grupo Herdez SAB de CV,,Cash, ,Withdrawn,Consumer Staples,2020-08-27
+M&A,2020-09-29,Mineral property/Colima,Asia Metals Inc,,,Cash, ,Completed,Materials,2020-10-27
