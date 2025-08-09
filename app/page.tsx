@@ -79,9 +79,15 @@ export default function Home() {
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">
             M&A Report Generator
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-gray-600 text-sm mb-4">
             Transform your M&A data into professional reports
           </p>
+          <a 
+            href="/preview" 
+            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+          >
+            View Slide Preview →
+          </a>
         </div>
 
         {/* Upload Area */}

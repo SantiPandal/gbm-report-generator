@@ -190,6 +190,119 @@ Each slide is a separate @react-pdf/renderer component:
 - **E2E Tests**: File upload → PDF download flow
 - **Visual Tests**: PDF output quality and formatting
 
+## 🎨 Design System & Style Guide
+
+### Visual Style: McKinsey/BCG Professional Financial Presentation
+
+The application follows a **professional investment banking/consulting presentation style** with these characteristics:
+
+### Color Palette
+```typescript
+// Professional financial/consulting color palette
+const colors = {
+  // Primary blues (main brand colors)
+  primaryBlue: '#2c5282',   // Dark blue - headers, primary data
+  mediumBlue: '#4a90e2',    // Medium blue - secondary elements
+  lightBlue: '#a7c7e7',     // Light blue - tertiary elements
+  paleBlue: '#e6f2ff',      // Very light blue - backgrounds
+  
+  // Grays (text and UI elements)
+  darkGray: '#2d3748',      // Main text, headers
+  textGray: '#4a5568',      // Body text
+  mediumGray: '#718096',    // Secondary text, labels
+  lightGray: '#cbd5e0',     // Borders, dividers
+  paleGray: '#e2e8f0',      // Light borders
+  backgroundGray: '#f7fafc', // Background fills
+  
+  // Accent colors (use sparingly)
+  accentPink: '#d8b2d8',    // Special highlights
+  accentTeal: '#4fd1c5',    // Alternative accent
+  accentPurple: '#9f7aea',  // Additional accent
+  
+  // Base
+  white: '#ffffff',         // Primary background
+  black: '#1a202c',         // Maximum contrast
+};
+```
+
+### Design Principles
+
+1. **Clean & Minimalist**
+   - Lots of white space for breathing room
+   - No unnecessary decorative elements
+   - Focus on data and insights
+   - High contrast for readability
+
+2. **Professional Typography**
+   - Headers: Bold, uppercase for major titles
+   - Subheaders: Regular weight, proper case
+   - Body: Clean sans-serif (Helvetica/Arial)
+   - Data labels: Small, uppercase with letter-spacing
+
+3. **Chart Styling**
+   - 2D only, no 3D effects or shadows
+   - Muted color progression from dark to light
+   - Direct labeling on charts when possible
+   - Clean gridlines with subtle coloring
+   - Professional tooltips with relevant data
+
+4. **Layout Structure**
+   - **16:9 aspect ratio** (1280x720px) for all slides
+   - Consistent 50px padding on all sides
+   - Clear visual hierarchy with size and color
+   - Grouped related information
+   - Strategic use of dividers and borders
+
+### Slide Components
+
+Each slide follows this structure:
+```
+┌─────────────────────────────────────┐
+│  HEADER (Title + Period)            │
+│  ─────────────────────────          │
+│                                      │
+│  KEY METRICS BAR (if applicable)    │
+│                                      │
+│  MAIN CONTENT AREA                  │
+│  - Charts (left)                    │
+│  - Tables/Details (right)           │
+│                                      │
+│  ─────────────────────────          │
+│  FOOTER (Confidential | Page #)     │
+└─────────────────────────────────────┘
+```
+
+### Chart Types & Usage
+
+1. **Pie Charts** - Distribution and portfolio breakdown
+2. **Bar Charts** - Time series and comparisons
+3. **Stacked Bar Charts** - Status distributions
+4. **Horizontal Bar Charts** - Rankings and top items
+5. **Line Charts** - Trends over time
+6. **Data Tables** - Detailed supporting information
+
+### Visual Hierarchy
+
+1. **Primary Focus**: Main chart or visualization (60% of space)
+2. **Secondary**: Supporting data table or metrics (30% of space)
+3. **Tertiary**: Labels, legends, footnotes (10% of space)
+
+### Professional Touches
+
+- **Confidentiality notices** on every slide
+- **Page numbers** with visual separator
+- **Source citations** when using external data
+- **Italicized quotes** for emphasis
+- **Color-coded status indicators** (green/yellow/red)
+- **Uppercase labels** for sections with letter-spacing
+
+### Responsive Scaling
+
+- Default view at **75%** for standard screens
+- **50%** for overview/thumbnail view
+- **100%** for detailed examination
+- Maintains aspect ratio at all zoom levels
+
 ## 📧 Contact & Support
 
 This project uses a clean architecture separating concerns between:
