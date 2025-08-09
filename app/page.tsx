@@ -82,12 +82,20 @@ export default function Home() {
           <p className="text-gray-600 text-sm mb-4">
             Transform your M&A data into professional reports
           </p>
-          <a 
-            href="/preview" 
-            className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-          >
-            View Slide Preview →
-          </a>
+          <div className="flex gap-4 justify-center">
+            <a 
+              href="/report" 
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
+              Ver Reporte A4 →
+            </a>
+            <a 
+              href="/preview" 
+              className="text-gray-500 hover:text-gray-700 text-sm"
+            >
+              Vista Desarrollo
+            </a>
+          </div>
         </div>
 
         {/* Upload Area */}
