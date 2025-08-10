@@ -36,7 +36,7 @@ export default function Home() {
       const formData = new FormData();
       formData.append('csvFile', file);
 
-      const response = await fetch('/api/generate-report', {
+      const response = await fetch('/api/generate-pdf', {
         method: 'POST',
         body: formData,
       });
@@ -80,7 +80,7 @@ export default function Home() {
             M&A Report Generator
           </h1>
           <p className="text-gray-600 text-sm mb-4">
-            Transform your M&A data into professional reports
+            Transform your M&A data into professional A4 reports
           </p>
           <div className="flex gap-4 justify-center">
             <a 
@@ -88,12 +88,6 @@ export default function Home() {
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
             >
               Ver Reporte A4 →
-            </a>
-            <a 
-              href="/preview" 
-              className="text-gray-500 hover:text-gray-700 text-sm"
-            >
-              Vista Desarrollo
             </a>
           </div>
         </div>

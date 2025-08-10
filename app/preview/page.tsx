@@ -1,23 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Download, Maximize2, FileDown, Loader2 } from 'lucide-react';
-import { TitleSection } from '../components/report-sections/01_TitleSection';
-import { sampleData } from '@/lib/sampleData';
+import { ChevronLeft, ChevronRight, Download, Maximize2 } from 'lucide-react';
+import { Page1 } from '../components/report-sections/page_1/Page1';
 
 export default function PreviewPage() {
   const [currentPage, setCurrentPage] = useState(0);
   const [scale, setScale] = useState(0.75); // Optimized for MacBook Air M2 13" (1470 × 956)
   
-  // Create array of pages with sections (3 sections per A4 page)
+  // Create array of pages. Use full-page aggregators where available
   const pages = [
-    // Page 1
+    // Page 1 - Aggregated component
+    <Page1 key="page1" />,
+    // Page 2 - Legacy content (kept as sections, without TitleSection)
     [
-      <TitleSection 
-        key="title"
-        data={sampleData.summaryStats} 
-        period="Enero - Diciembre 2024" 
-      />,
       <div key="section2" className="w-full h-full bg-white border border-gray-200 rounded-lg flex flex-col" style={{ height: '280px', padding: '12px', margin: '0', boxSizing: 'border-box' }}>
         <div className="border-b border-[#2c5282] pb-2 mb-3 flex-shrink-0">
           <h3 className="text-lg font-bold text-[#2c5282]">Resumen de Fusiones y Adquisiciones en México</h3>
@@ -82,7 +78,7 @@ export default function PreviewPage() {
       </div>
     ],
     
-    // Page 2
+    // Page 3 - Previous Page 2
     [
       <div key="section4" className="w-full h-full bg-white border border-gray-200 rounded-lg flex flex-col" style={{ height: '280px', padding: '12px', margin: '0', boxSizing: 'border-box' }}>
         <div className="border-b border-[#2c5282] pb-2 mb-3 flex-shrink-0">
@@ -159,7 +155,7 @@ export default function PreviewPage() {
       </div>
     ],
     
-    // Page 3
+    // Page 4 - Previous Page 3
     [
       <div key="section7" className="w-full h-full bg-white border border-gray-200 rounded-lg flex flex-col" style={{ height: '280px', padding: '12px', margin: '0', boxSizing: 'border-box' }}>
         <h3 className="text-lg font-bold text-[#2c5282] mb-4">Suscríbete</h3>
@@ -175,6 +171,8 @@ export default function PreviewPage() {
       </div>
     ]
   ];
+
+  const currentContent = pages[currentPage] as any;
   
   const nextPage = () => {
     setCurrentPage((prev) => (prev + 1) % pages.length);
@@ -276,21 +274,25 @@ export default function PreviewPage() {
                 </div>
               </div>
               
-              {/* Page Sections - Fixed height distribution */}
+              {/* Page content - Supports full-page components and legacy section arrays */}
               <div className="flex-1 flex flex-col justify-between" style={{ minHeight: 'calc(297mm - 30mm - 120px)' }}>
-                {pages[currentPage].map((section, sectionIndex) => (
-                  <div 
-                    key={sectionIndex}
-                    className="flex-1"
-                    style={{ 
-                      minHeight: '280px',
-                      maxHeight: '280px',
-                      marginBottom: sectionIndex < pages[currentPage].length - 1 ? '8px' : '0'
-                    }}
-                  >
-                    {section}
-                  </div>
-                ))}
+                {Array.isArray(currentContent) ? (
+                  currentContent.map((section: any, sectionIndex: number) => (
+                    <div 
+                      key={sectionIndex}
+                      className="flex-1"
+                      style={{ 
+                        minHeight: '280px',
+                        maxHeight: '280px',
+                        marginBottom: sectionIndex < currentContent.length - 1 ? '8px' : '0'
+                      }}
+                    >
+                      {section}
+                    </div>
+                  ))
+                ) : (
+                  currentContent
+                )}
               </div>
               
               {/* Page Footer */}

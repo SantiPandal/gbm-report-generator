@@ -95,6 +95,16 @@ npm run clean:screenshots     # Clean old screenshots
 npm run clean:tmp            # Clean temporary files
 ```
 
+### Browser Automation (Playwright MCP)
+- Use Playwright MCP for browser automation and screenshots.
+- Always resize the window to `{ width: 1470, height: 956 }` for consistent visuals.
+- Example resize call:
+
+```ts
+// Standard MCP resize
+// mcp_playwright_browser_resize({ width: 1470, height: 956 })
+```
+
 ### Key Dependencies
 - `@react-pdf/renderer` - PDF generation
 - `next` - React framework
