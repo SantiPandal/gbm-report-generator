@@ -4,7 +4,6 @@ import { Activity } from 'lucide-react';
 import { CHAR_BUDGETS, truncateText } from '@/lib/design/typography';
 
 interface EquityIssuancesCardProps {
-  title?: string;
   totalVolume?: string;
   volumeChange?: string;
   highlightIPO?: string;
@@ -15,7 +14,6 @@ interface EquityIssuancesCardProps {
 }
 
 export const EquityIssuancesCard = ({
-  title = "Mercado de Capitales",
   totalVolume = "MXN 45,200 MM",
   volumeChange = "+230%",
   highlightIPO = "Fibra Next",

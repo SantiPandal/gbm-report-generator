@@ -12,7 +12,7 @@ interface ProcessedReportData {
   terminatedDeals: number;
   successRate: string;
   avgDealSize: string;
-  topDeals: Record<string, any>[];
+  topDeals: Record<string, string | number>[];
   industries: [string, number][];
   period: string;
 }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Download, Maximize2 } from 'lucide-react';
 import { Page1 } from '../components/report-sections/page_1/Page1';
+import { Page2 } from '../components/report-sections/page_2/Page2';
 
 export default function PreviewPage() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -12,71 +13,8 @@ export default function PreviewPage() {
   const pages = [
     // Page 1 - Aggregated component
     <Page1 key="page1" />,
-    // Page 2 - Legacy content (kept as sections, without TitleSection)
-    [
-      <div key="section2" className="w-full h-full bg-white border border-gray-200 rounded-lg flex flex-col" style={{ height: '280px', padding: '12px', margin: '0', boxSizing: 'border-box' }}>
-        <div className="border-b border-[#2c5282] pb-2 mb-3 flex-shrink-0">
-          <h3 className="text-lg font-bold text-[#2c5282]">Resumen de Fusiones y Adquisiciones en México</h3>
-        </div>
-        <div className="flex-1 flex flex-col justify-between py-1">
-          <div className="flex-1 flex flex-col justify-center">
-            <p className="text-sm text-gray-600 mb-4">Esta sección contendrá el análisis detallado del mercado mexicano de fusiones y adquisiciones, incluyendo tendencias, sectores destacados y comparaciones año tras año.</p>
-            <div className="bg-[#f7fafc] rounded-lg p-4 border-l-4 border-[#4a90e2]">
-              <div className="text-xs font-semibold text-[#4a5568] uppercase tracking-wider mb-3">Datos Clave - México</div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="text-center">
-                  <div className="text-lg font-bold text-[#2c5282] mb-1">85</div>
-                  <div className="text-[10px] text-[#718096] uppercase tracking-wide">Transacciones</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-[#2c5282] mb-1">USD 9.2B</div>
-                  <div className="text-[10px] text-[#718096] uppercase tracking-wide">Valor Total</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-[#2c5282] mb-1">72%</div>
-                  <div className="text-[10px] text-[#718096] uppercase tracking-wide">Completadas</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-lg font-bold text-[#2c5282] mb-1">108M</div>
-                  <div className="text-[10px] text-[#718096] uppercase tracking-wide">Promedio</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>,
-      <div key="section3" className="w-full h-full bg-white border border-gray-200 rounded-lg flex flex-col" style={{ height: '280px', padding: '12px', margin: '0', boxSizing: 'border-box' }}>
-        <div className="border-b border-[#2c5282] pb-2 mb-3 flex-shrink-0">
-          <h3 className="text-lg font-bold text-[#2c5282]">Transacciones por Empresas Mexicanas en el Extranjero</h3>
-        </div>
-        <div className="flex-1 flex flex-col justify-between py-2">
-          <div className="flex-1 flex flex-col justify-center">
-            <p className="text-sm text-gray-600 mb-6">Esta sección mostrará las inversiones mexicanas en el exterior, enfocándose en los mercados objetivo principales y los sectores de mayor actividad.</p>
-            <div className="bg-[#f7fafc] rounded-lg p-5 border-l-4 border-[#a7c7e7]">
-              <div className="text-xs font-semibold text-[#4a5568] uppercase tracking-wider mb-4">Mercados Objetivo - Internacional</div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-xl font-bold text-[#2c5282] mb-1">42</div>
-                  <div className="text-xs text-[#718096] uppercase tracking-wide">Transacciones</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-[#2c5282] mb-1">USD 6.0B</div>
-                  <div className="text-xs text-[#718096] uppercase tracking-wide">Valor Total</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-[#2c5282] mb-1">EE.UU.</div>
-                  <div className="text-xs text-[#718096] uppercase tracking-wide">Principal</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-[#2c5282] mb-1">143M</div>
-                  <div className="text-xs text-[#718096] uppercase tracking-wide">Promedio</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ],
+    // Page 2 - Aggregated component with proper sections
+    <Page2 key="page2" />,
     
     // Page 3 - Previous Page 2
     [
@@ -172,7 +110,7 @@ export default function PreviewPage() {
     ]
   ];
 
-  const currentContent = pages[currentPage] as any;
+  const currentContent = pages[currentPage];
   
   const nextPage = () => {
     setCurrentPage((prev) => (prev + 1) % pages.length);
@@ -277,7 +215,7 @@ export default function PreviewPage() {
               {/* Page content - Supports full-page components and legacy section arrays */}
               <div className="flex-1 flex flex-col justify-between" style={{ minHeight: 'calc(297mm - 30mm - 120px)' }}>
                 {Array.isArray(currentContent) ? (
-                  currentContent.map((section: any, sectionIndex: number) => (
+                  currentContent.map((section: React.ReactElement, sectionIndex: number) => (
                     <div 
                       key={sectionIndex}
                       className="flex-1"

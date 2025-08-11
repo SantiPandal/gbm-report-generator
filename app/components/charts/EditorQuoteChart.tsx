@@ -42,7 +42,7 @@ export const EditorQuoteChart = ({
         <div className="h-full flex flex-col relative py-2">
           {/* Large Opening Quote Mark */}
           <div className="absolute left-0 top-2">
-            <span className="text-5xl font-serif text-[#cbd5e0] opacity-40 leading-none select-none">"</span>
+            <span className="text-5xl font-serif text-[#cbd5e0] opacity-40 leading-none select-none">&ldquo;</span>
           </div>
           
           {/* Quote Content */}
@@ -56,10 +56,10 @@ export const EditorQuoteChart = ({
               {/* Closing Quote Mark & Attribution */}
               <div className="flex justify-end items-end">
                 <div className="text-right">
-                  <span className="text-2xl font-serif text-[#cbd5e0] opacity-40 leading-none select-none">"</span>
+                  <span className="text-2xl font-serif text-[#cbd5e0] opacity-40 leading-none select-none">&rdquo;</span>
                   <div className="text-[8px] text-[#718096] font-medium mt-1">
                     <div className="border-t border-[#e2e8f0] pt-1">
-                      Editor's Note
+                      Editor&rsquo;s Note
                     </div>
                   </div>
                 </div>

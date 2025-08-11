@@ -100,7 +100,7 @@ export const MAPerspectiveSection = ({ period = "YTD 2025" }: MAPerspectiveSecti
                   +{yoyVolumeChange}%
                 </div>
                 <div className="text-[8px] uppercase tracking-wide" style={{ color: colors.mediumGray }}>
-                  vs '23
+                  vs &rsquo;23
                 </div>
               </div>
             </div>

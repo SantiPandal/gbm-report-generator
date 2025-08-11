@@ -1,6 +1,6 @@
 'use client';
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 interface IndustryData {
   name: string;
@@ -10,14 +10,14 @@ interface IndustryData {
 
 interface IndustryPieChartProps {
   data: IndustryData[];
-  innerRadius?: number;
-  outerRadius?: number;
+  width: number;
+  height: number;
 }
 
 export const IndustryPieChart = ({ 
   data,
-  innerRadius = 36, // Reduced by 20% from 45
-  outerRadius = 60 // Reduced by 20% from 75
+  width,
+  height
 }: IndustryPieChartProps) => {
 
   const CustomTooltip = ({ active, payload }: any) => {
@@ -39,7 +39,7 @@ export const IndustryPieChart = ({
   }: any) => {
     if (value < 3) return null; // Don't show labels for < 3%
     
-    const radius = innerRadius + (outerRadius - innerRadius) * 1.2;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.3;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -58,13 +58,16 @@ export const IndustryPieChart = ({
     );
   };
 
+  const innerRadius = 45;
+  const outerRadius = 70;
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
+      <PieChart width={width} height={height}>
         <Pie
           data={data}
-          cx="50%"
-          cy="50%"
+          cx={width / 2}
+          cy={height / 2}
           labelLine={false}
           label={renderCustomizedLabel}
           innerRadius={innerRadius}
@@ -78,6 +81,6 @@ export const IndustryPieChart = ({
         </Pie>
         <Tooltip content={<CustomTooltip />} />
       </PieChart>
-    </ResponsiveContainer>
+    </div>
   );
 };

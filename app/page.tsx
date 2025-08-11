@@ -59,8 +59,8 @@ export default function Home() {
       
       // Reset after successful generation
       setFile(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to generate report. Please try again.');
+    } catch (err) {
+      setError((err as Error)?.message || 'Failed to generate report. Please try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -84,10 +84,10 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center">
             <a 
-              href="/report" 
+              href="/preview" 
               className="text-blue-600 hover:text-blue-700 text-sm font-medium"
             >
-              Ver Reporte A4 →
+              Ver Vista Previa →
             </a>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function Home() {
             {isDragActive ? (
               <div>
                 <p className="text-blue-600 font-medium mb-1">Drop your file here</p>
-                <p className="text-sm text-blue-500">We'll process it right away</p>
+                <p className="text-sm text-blue-500">We&rsquo;ll process it right away</p>
               </div>
             ) : (
               <div>

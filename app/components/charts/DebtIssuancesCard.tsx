@@ -1,7 +1,7 @@
 'use client';
 
 import { TrendingUp } from 'lucide-react';
-import { CHAR_BUDGETS, truncateText } from '@/lib/design/typography';
+// Unused imports removed
 
 interface DebtIssuancesCardProps {
   title?: string;
