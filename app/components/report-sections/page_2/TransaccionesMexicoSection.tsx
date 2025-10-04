@@ -1,10 +1,9 @@
 'use client';
 
-import { SectionFrame } from '../SectionFrame';
 import { SectionHeader } from '../SectionHeader';
 import { colors } from '@/lib/design/tokens';
 
-interface Transaction {
+export interface Transaction {
   objetivo: string;
   industria: string;
   comprador: string;
@@ -15,11 +14,19 @@ interface Transaction {
 
 interface TransaccionesMexicoSectionProps {
   period?: string;
+  transactions?: Transaction[];
+  title?: string;
+  fullHeight?: boolean;  // For continuation pages to use full page height
 }
 
-export const TransaccionesMexicoSection = ({ period = "2025 YTD" }: TransaccionesMexicoSectionProps) => {
+export const TransaccionesMexicoSection = ({
+  period = "2025 YTD",
+  transactions,
+  title = "Transacciones en México 2025 YTD",
+  fullHeight = false
+}: TransaccionesMexicoSectionProps) => {
   // Sample transaction data matching the mockup
-  const transactions: Transaction[] = [
+  const defaultTransactions: Transaction[] = [
     {
       objetivo: "CEMEX Dominicana",
       industria: "Materiales",
@@ -254,42 +261,45 @@ export const TransaccionesMexicoSection = ({ period = "2025 YTD" }: Transaccione
     }
   ];
 
+  // Use provided transactions or default ones
+  const displayTransactions = transactions || defaultTransactions;
+
   return (
-    <SectionFrame height={560} padding={12}>
+    <div className="w-full bg-white border border-gray-200 rounded-lg flex flex-col p-3">
       {/* Section Header */}
-      <SectionHeader 
-        title="Transacciones en México 2025 YTD" 
+      <SectionHeader
+        title={title}
         period={period}
         borderColor={colors.primaryBlue}
       />
 
-      {/* Table Container */}
-      <div className="flex-1 overflow-auto">
+      {/* Table Container - no overflow, size fits content */}
+      <div className="mt-4">
         <table className="w-full text-[9px]">
           <thead>
             <tr className="bg-[#f7fafc] border-b border-gray-200">
-              <th className="text-left py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Objetivo</th>
-              <th className="text-left py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Industria</th>
-              <th className="text-left py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Comprador</th>
-              <th className="text-left py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Vendedor</th>
-              <th className="text-right py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Monto (US $ MM)</th>
-              <th className="text-right py-2 px-2 font-semibold text-[#2c5282] uppercase tracking-wider">Porcentaje Adquirido</th>
+              <th className="text-left py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Objetivo</th>
+              <th className="text-left py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Industria</th>
+              <th className="text-left py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Comprador</th>
+              <th className="text-left py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Vendedor</th>
+              <th className="text-right py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Monto (US $ MM)</th>
+              <th className="text-right py-1 px-1.5 font-semibold text-[#2c5282] uppercase tracking-wider text-[8px]">Porcentaje Adquirido</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map((transaction, index) => (
-              <tr 
-                key={index} 
+            {displayTransactions.map((transaction, index) => (
+              <tr
+                key={index}
                 className={`border-b border-gray-100 ${index % 2 === 0 ? 'bg-white' : 'bg-[#fafbfc]'} hover:bg-[#e6f2ff] transition-colors`}
               >
-                <td className="py-1.5 px-2 text-[#2d3748]">{transaction.objetivo}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{transaction.industria}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{transaction.comprador}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{transaction.vendedor}</td>
-                <td className="py-1.5 px-2 text-right font-semibold text-[#2c5282]">
+                <td className="py-1 px-1.5 text-[#2d3748] text-[8px]">{transaction.objetivo}</td>
+                <td className="py-1 px-1.5 text-[#4a5568] text-[8px]">{transaction.industria}</td>
+                <td className="py-1 px-1.5 text-[#4a5568] text-[8px]">{transaction.comprador}</td>
+                <td className="py-1 px-1.5 text-[#4a5568] text-[8px]">{transaction.vendedor}</td>
+                <td className="py-1 px-1.5 text-right font-semibold text-[#2c5282] text-[8px]">
                   {transaction.monto}
                 </td>
-                <td className="py-1.5 px-2 text-right font-semibold text-[#2c5282]">
+                <td className="py-1 px-1.5 text-right font-semibold text-[#2c5282] text-[8px]">
                   {transaction.porcentaje}
                 </td>
               </tr>
@@ -299,11 +309,11 @@ export const TransaccionesMexicoSection = ({ period = "2025 YTD" }: Transaccione
       </div>
 
       {/* Footer Note */}
-      <div className="mt-2 pt-2 border-t border-gray-200">
-        <p className="text-[8px] text-gray-500 italic">
+      <div className="mt-4 pt-2 border-t border-gray-200">
+        <p className="text-[7px] text-gray-500 italic">
           Fuente: S&P Capital IQ, Bloomberg, Informes públicos de empresas
         </p>
       </div>
-    </SectionFrame>
+    </div>
   );
 };

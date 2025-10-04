@@ -1,83 +1,95 @@
 'use client';
 
-import { Activity } from 'lucide-react';
-import { CHAR_BUDGETS, truncateText } from '@/lib/design/typography';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 interface EquityIssuancesCardProps {
   totalVolume?: string;
-  volumeChange?: string;
-  highlightIPO?: string;
-  highlightAmount?: string;
-  newIPOs?: number;
-  followOns?: number;
-  fibras?: number;
+  highlightedEmission?: {
+    name: string;
+    amount: string;
+  };
+  ipoVolume?: number;
+  followOnVolume?: number;
 }
 
 export const EquityIssuancesCard = ({
-  totalVolume = "MXN 45,200 MM",
-  volumeChange = "+230%",
-  highlightIPO = "Fibra Next",
-  highlightAmount = "MXN 8,000 MM",
-  newIPOs = 3,
-  followOns = 12,
-  fibras = 5
+  totalVolume = "Ps.$13,148 MM",
+  highlightedEmission = {
+    name: "Fibra Next",
+    amount: "Ps.$6,000 MM"
+  },
+  ipoVolume = 8000,
+  followOnVolume = 5148
 }: EquityIssuancesCardProps) => {
+  const ipoData = [{ name: 'IPOs', value: ipoVolume }];
+  const followOnData = [{ name: 'Follow-Ons', value: followOnVolume }];
+
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="bg-gradient-to-br from-[#f7fafc] to-white rounded-lg border border-[#e2e8f0] p-3 flex flex-col h-full">
-        <div className="border-b border-[#cbd5e0] pb-2 mb-3">
-          <h3 className="text-sm font-bold text-[#2c5282] mb-1">Emisiones de Capital</h3>
-          <p className="text-[10px] text-[#718096]">IPOs y Follow-ons</p>
-        </div>
+    <div className="bg-white rounded-lg border border-gray-200 p-2.5 flex flex-col h-full">
+      {/* Compact Header */}
+      <div className="mb-1">
+        <h2 className="text-[11px] font-bold text-gray-900">Emisiones de Capital</h2>
+        <p className="text-[9px] text-gray-600">IPOs, Follow-Ons & Rights Offerings</p>
+        <p className="text-[8px] text-gray-500 mt-0.5">
+          Volumen Total YTD 2025: <span className="font-bold text-gray-900 text-[10px]">{totalVolume}</span>
+        </p>
+      </div>
 
-        {/* Equity Metrics */}
-        <div className="flex-1 space-y-2">
-          <div className="flex items-start gap-2">
-            <Activity className="w-4 h-4 text-[#4a90e2] mt-0.5" />
-            <div className="flex-1">
-              <div className="text-xs font-semibold text-[#2d3748]">
-                Volumen Total: {totalVolume}
-              </div>
-              <div className="text-[10px] text-[#718096]">
-                {volumeChange} vs. 2024
-              </div>
+      {/* Compact Highlighted Emission */}
+      <div className="bg-gray-50 rounded p-1 mb-1.5 text-[8px]">
+        <span className="font-semibold text-gray-700">📌 Emisión destacada: </span>
+        <span className="font-bold text-gray-900">{highlightedEmission.name}</span>
+        <span className="text-gray-600"> | Monto: {highlightedEmission.amount}</span>
+      </div>
+
+      {/* Charts Section - Main Focus */}
+      <div className="flex-1 flex flex-col">
+        <h3 className="text-[9px] font-semibold text-gray-700 mb-2">Emisiones de Capital</h3>
+
+        <div className="grid grid-cols-2 gap-3 flex-1">
+          {/* IPOs Chart */}
+          <div className="flex flex-col">
+            <div className="mb-1">
+              <h4 className="text-[9px] font-semibold text-gray-700">IPOs</h4>
+              <p className="text-[10px] font-bold text-gray-900">Ps.${ipoVolume.toLocaleString()} MM</p>
+            </div>
+
+            <div className="flex-1 flex flex-col justify-end">
+              <ResponsiveContainer width="100%" height={120}>
+                <BarChart data={ipoData} margin={{ top: 5, right: 2, bottom: 8, left: 2 }}>
+                  <XAxis
+                    dataKey="name"
+                    tick={false}
+                    axisLine={{ stroke: '#e5e7eb', strokeWidth: 0.5 }}
+                  />
+                  <YAxis hide />
+                  <Bar dataKey="value" fill="#1e40af" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+              <p className="text-[8px] text-gray-600 text-center -mt-1.5 font-medium">2025 YTD</p>
             </div>
           </div>
 
-          <div className="bg-white rounded p-2 border-l-3 border-[#a7c7e7]">
-            <div className="space-y-1">
-              <div className="text-[10px]">
-                {truncateText(`IPO destacado: ${highlightIPO}`, CHAR_BUDGETS.capitalMarkets.equityHighlight)}
-              </div>
-              <div className="text-[10px]">
-                <span className="text-[#718096]">Monto:</span>
-                <span className="font-semibold text-[#2c5282] ml-1">{highlightAmount}</span>
-              </div>
+          {/* Follow-Ons/Rights Chart */}
+          <div className="flex flex-col">
+            <div className="mb-1">
+              <h4 className="text-[9px] font-semibold text-gray-700">Follow-Ons/Rights Offerings</h4>
+              <p className="text-[10px] font-bold text-gray-900">Ps.${followOnVolume.toLocaleString()} MM</p>
             </div>
-          </div>
 
-          <div className="space-y-1">
-            <div className="flex justify-between text-[10px]">
-              <span className="text-[#718096]">Nuevas emisiones (IPOs)</span>
-              <span className="font-semibold text-[#2d3748]">{newIPOs}</span>
-            </div>
-            <div className="flex justify-between text-[10px]">
-              <span className="text-[#718096]">Follow-ons</span>
-              <span className="font-semibold text-[#2d3748]">{followOns}</span>
-            </div>
-            <div className="flex justify-between text-[10px]">
-              <span className="text-[#718096]">FIBRAs</span>
-              <span className="font-semibold text-[#2d3748]">{fibras}</span>
-            </div>
-          </div>
-
-          {/* Success indicator */}
-          <div className="mt-auto pt-2">
-            <div className="bg-gradient-to-r from-[#a7c7e7] to-[#4a90e2] rounded-full h-1.5 relative">
-              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-[#2c5282] rounded-full border-2 border-white" />
-            </div>
-            <div className="text-[9px] text-[#718096] text-center mt-1">
-              Momentum positivo en mercado de capitales
+            <div className="flex-1 flex flex-col justify-end">
+              <ResponsiveContainer width="100%" height={120}>
+                <BarChart data={followOnData} margin={{ top: 5, right: 2, bottom: 8, left: 2 }}>
+                  <XAxis
+                    dataKey="name"
+                    tick={false}
+                    axisLine={{ stroke: '#e5e7eb', strokeWidth: 0.5 }}
+                  />
+                  <YAxis hide />
+                  <Bar dataKey="value" fill="#60a5fa" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+              <p className="text-[8px] text-gray-600 text-center -mt-1.5 font-medium">2025 YTD</p>
             </div>
           </div>
         </div>

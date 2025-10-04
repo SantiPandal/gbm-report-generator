@@ -43,18 +43,18 @@ export const IndustryBreakdownChart = ({
   
   return (
     <div className="w-full">
-      <h4 className="text-[9px] font-semibold text-[#718096] uppercase tracking-wider mb-2">
+      <h4 className="text-[9px] font-semibold text-[#718096] uppercase tracking-wider mb-0">
         {title}
       </h4>
-      
-      <div className="flex items-center" style={{ height: `${height}px`, width: `${CHART_WIDTH}px` }}>
+
+      <div className="flex items-start" style={{ height: `${height}px`, width: `${CHART_WIDTH}px` }}>
         {/* Doughnut Chart - Left side (50%) */}
-        <div style={{ width: `${SECTION_WIDTH}px`, height: `${height}px` }} className="flex items-center justify-center">
+        <div style={{ width: `${SECTION_WIDTH}px`, height: `${height}px` }} className="flex items-start justify-center">
           <PieChart width={SECTION_WIDTH} height={height}>
             <Pie
               data={data}
               cx={SECTION_WIDTH / 2}
-              cy={height / 2}
+              cy={60}
               innerRadius={28}  // Doughnut inner radius
               outerRadius={48}  // Doughnut outer radius
               paddingAngle={1}  // Small gap between segments
@@ -70,8 +70,8 @@ export const IndustryBreakdownChart = ({
 
         {/* Legend - Right side (50%) */}
         {showLegend && (
-          <div style={{ width: `${SECTION_WIDTH}px` }} className="flex items-center">
-            <div className="w-full space-y-0.5">
+          <div style={{ width: `${SECTION_WIDTH}px` }} className="flex items-start">
+            <div className="w-full space-y-0.5 mt-3">
               {data.map((item, index) => (
                 <div key={item.name} className="flex items-center justify-between">
                   <div className="flex items-center flex-1 min-w-0 mr-2">

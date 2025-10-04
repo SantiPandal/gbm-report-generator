@@ -27,19 +27,6 @@ export const MAPerspectiveSection = ({ period = "YTD 2025" }: MAPerspectiveSecti
     { month: "Dic '24", count: 12, isCurrentMonth: true },
   ];
 
-  // Metrics from ResumenMexicoSlide
-  const currentMonthTransactions = 12;
-  const currentMonthValue = 1455; // millions USD
-  const netTransactionChange = 2; // vs last year
-  const yoyVolumeChange = 24.8; // percentage
-  
-  // Format value for display
-  const formatValue = (value: number): string => {
-    if (value >= 1000) {
-      return `${(value / 1000).toFixed(1)}B`;
-    }
-    return `${value.toFixed(0)}M`;
-  };
 
   // Mock industry data
   const industryData = [
@@ -55,7 +42,7 @@ export const MAPerspectiveSection = ({ period = "YTD 2025" }: MAPerspectiveSecti
   ];
 
   return (
-    <SectionFrame>
+    <SectionFrame height={336}>
       {/* Section Header */}
       <SectionHeader 
         title="Perspectiva de M&A México 2025" 
@@ -65,62 +52,38 @@ export const MAPerspectiveSection = ({ period = "YTD 2025" }: MAPerspectiveSecti
 
       {/* Content Area */}
       <div className="flex-1 min-h-0 flex gap-4">
-        {/* Left Side - Metrics and Chart */}
-        <div className="w-1/2 min-h-0 flex flex-col" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
-          {/* Three Separated Metrics */}
-          <div className="flex gap-1 mb-4">
-            {/* Metric 1 - Transactions */}
-            <div className="flex-1 bg-white rounded p-1.5 border-l-2 border-[#2c5282] shadow-sm">
-              <div className="text-center">
-                <div className="text-sm font-bold" style={{ color: colors.primaryBlue }}>
-                  {currentMonthTransactions}
-                </div>
-                <div className="text-[8px] uppercase tracking-wide" style={{ color: colors.mediumGray }}>
-                  Trans. Dic
-                </div>
-              </div>
-            </div>
-
-            {/* Metric 2 - Value */}
-            <div className="flex-1 bg-white rounded p-1.5 border-l-2 border-[#4a90e2] shadow-sm">
-              <div className="text-center">
-                <div className="text-sm font-bold" style={{ color: colors.mediumBlue }}>
-                  USD {formatValue(currentMonthValue)}
-                </div>
-                <div className="text-[8px] uppercase tracking-wide" style={{ color: colors.mediumGray }}>
-                  Valor Dic
-                </div>
-              </div>
-            </div>
-
-            {/* Metric 3 - YoY Change */}
-            <div className="flex-1 bg-white rounded p-1.5 border-l-2 border-[#a7c7e7] shadow-sm">
-              <div className="text-center">
-                <div className="text-sm font-bold" style={{ color: colors.lightBlue }}>
-                  +{yoyVolumeChange}%
-                </div>
-                <div className="text-[8px] uppercase tracking-wide" style={{ color: colors.mediumGray }}>
-                  vs &rsquo;23
-                </div>
-              </div>
-            </div>
+        {/* Left Side - Bar Chart with text box */}
+        <div className="w-1/2 min-h-0 flex flex-col gap-2" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+          {/* Text box above bar chart */}
+          <div className="bg-gradient-to-br from-white to-[#f8fafc] rounded-md p-3 border border-[#e2e8f0]">
+            <p className="text-xs text-[#4a5568] leading-relaxed">
+              La actividad de M&A mostró <strong className="text-[#2c5282] font-semibold">tendencia positiva</strong> en el último trimestre con un promedio de <strong className="text-[#2c5282] font-semibold">11 operaciones mensuales</strong>, superando el promedio histórico del año.
+            </p>
           </div>
 
-          {/* Bar Chart - Direct, no wrapper */}
+          {/* Bar Chart */}
           <div className="flex-1 flex items-center justify-center">
-            <MonthlyBarChart 
+            <MonthlyBarChart
               data={monthlyData}
-              height={140}
+              height={160}
             />
           </div>
         </div>
 
-        {/* Right Side - Industry Breakdown */}
-        <div className="w-1/2 min-h-0 flex flex-col" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+        {/* Right Side - Industry Breakdown with text box */}
+        <div className="w-1/2 min-h-0 flex flex-col gap-2" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+          {/* Text box above pie chart */}
+          <div className="bg-gradient-to-br from-white to-[#f8fafc] rounded-md p-3 border border-[#e2e8f0]">
+            <p className="text-xs text-[#4a5568] leading-relaxed">
+              Los sectores <strong className="text-[#2c5282] font-semibold">Industrial y Materiales</strong> concentraron el <strong className="text-[#2c5282] font-semibold">41% del total</strong> de las transacciones, reflejando el dinamismo del nearshoring en México.
+            </p>
+          </div>
+
+          {/* Pie Chart */}
           <div className="flex-1 flex items-center justify-center">
-            <IndustryBreakdownChart 
+            <IndustryBreakdownChart
               data={industryData}
-              height={140}
+              height={160}
               showLegend={true}
             />
           </div>
