@@ -3,61 +3,72 @@
 import { SectionFrame } from '../SectionFrame';
 import { SectionHeader } from '../SectionHeader';
 import { colors } from '@/lib/design/tokens';
-import { BarLineTrendChart, type BarLineTrendDatum } from '../../charts/BarLineTrendChart';
+import { BarLineTrendChart } from '../../charts/BarLineTrendChart';
 import { IndustryPieChart } from '../../charts/IndustryPieChart';
-
-const ipoTrendData: BarLineTrendDatum[] = [
-  { category: '2020', barValue: 12_637, lineValue: 2, barLabel: '12,637' },
-  { category: '2021', barValue: 28_227, lineValue: 3, barLabel: '28,227' },
-  { category: '2022', barValue: 2_454, lineValue: 2, barLabel: '2,454' },
-  { category: '2023', barValue: 9_628, lineValue: 3, barLabel: '9,628' },
-  { category: '2024', barValue: 8_628, lineValue: 3, barLabel: '8,628' },
-  { category: '2025 YTD', barValue: 8_008, lineValue: 1, barLabel: '8,008' },
-];
-
-const followOnTrendData: BarLineTrendDatum[] = [
-  { category: '2020', barValue: 779, lineValue: 1, barLabel: '779' },
-  { category: '2021', barValue: 17_192, lineValue: 1, barLabel: '17,192' },
-  { category: '2022', barValue: 13_110, lineValue: 2, barLabel: '13,110' },
-  { category: '2023', barValue: 10_140, lineValue: 3, barLabel: '10,140' },
-  { category: '2024', barValue: 25_677, lineValue: 3, barLabel: '25,677' },
-  { category: '2025 YTD', barValue: 1_145, lineValue: 0, barLabel: '1,145' },
-];
-
-const rightsOfferingTrendData: BarLineTrendDatum[] = [
-  { category: '2020', barValue: 9_816, lineValue: 4, barLabel: '9,816' },
-  { category: '2021', barValue: 2_700, lineValue: 2, barLabel: '2,700' },
-  { category: '2022', barValue: 2_588, lineValue: 2, barLabel: '2,588' },
-  { category: '2023', barValue: 2_877, lineValue: 2, barLabel: '2,877' },
-  { category: '2024', barValue: 22_913, lineValue: 8, barLabel: '22,913' },
-  { category: '2025 YTD', barValue: 0, lineValue: 0, barLabel: '0' },
-];
-
-const equityIndustryData = [
-  { name: 'FIBRAs E', value: 60, color: colors.primaryBlue },
-  { name: 'FIBRAs', value: 25, color: colors.accentTeal },
-  { name: 'Empresas', value: 15, color: colors.lightBlue },
-];
+import { useReportData } from '@/app/data-map/ReportDataContext';
+import type { BarLineTrendDatum } from '../../charts/BarLineTrendChart';
 
 const pesoFormatter = (value: number) => `${value.toLocaleString('es-MX')}`;
 
 export const CapitalSummaryChartsSection = () => {
+  const reportData = useReportData();
+  const ipoDataset = reportData['3_0_A'];
+  const issuerTypeDataset = reportData['3_0_B'];
+  const followOnDataset = reportData['3_0_C'];
+  const rightsDataset = reportData['3_0_D'];
+
+  const ipoTrendData: BarLineTrendDatum[] = ipoDataset.Data.map((row) => ({
+    category: row.Year,
+    barValue: row.Accumulated_Value_MXN_MM ?? 0,
+    lineValue: row.Number_of_Transactions ?? 0,
+    barLabel: (row.Accumulated_Value_MXN_MM ?? 0).toLocaleString('es-MX'),
+  }));
+
+  const followOnTrendData: BarLineTrendDatum[] = followOnDataset.Data.map((row) => ({
+    category: row.Year,
+    barValue: row.Accumulated_Value_MXN_MM ?? 0,
+    lineValue: row.Number_of_Transactions ?? 0,
+    barLabel: (row.Accumulated_Value_MXN_MM ?? 0).toLocaleString('es-MX'),
+  }));
+
+  const rightsOfferingTrendData: BarLineTrendDatum[] = rightsDataset.Data.map((row) => ({
+    category: row.Year,
+    barValue: row.Accumulated_Value_MXN_MM ?? 0,
+    lineValue: row.Number_of_Transactions ?? 0,
+    barLabel: (row.Accumulated_Value_MXN_MM ?? 0).toLocaleString('es-MX'),
+  }));
+
+  const industryPalette = [
+    colors.primaryBlue,
+    colors.accentTeal,
+    colors.lightBlue,
+    colors.accentPurple,
+    colors.accentPink,
+    colors.mediumBlue,
+  ];
+
+  const equityIndustryData = issuerTypeDataset.Data.map((row, index) => ({
+    name: row.Issuer_Type,
+    value: row.Percentage ?? 0,
+    color: industryPalette[index % industryPalette.length],
+  }));
+
+  const periodLabel = `${ipoTrendData[0]?.category ?? ''} - ${ipoTrendData[ipoTrendData.length - 1]?.category ?? ''}`;
+
   return (
     <SectionFrame height={540} padding={20}>
       <SectionHeader
-        title="Resumen de Emisiones de Capital en México"
-        period="Últimos 5 años (2020 - 2025 YTD)"
+        title={ipoDataset.Section_Title}
+        period={periodLabel}
         borderColor={colors.primaryBlue}
       />
 
       <div className="flex flex-col gap-4 h-[440px] mt-3">
-        {/* Top row - IPOs and Industry Breakdown */}
         <div className="grid grid-cols-2 gap-8 h-[210px]">
-          {/* IPO Chart Container */}
           <div className="flex flex-col h-full">
             <div className="h-[28px] mb-2">
               <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest leading-tight">
-                Número de transacciones y valor acumulado de IPOs en México
+                {ipoDataset.Chart_Title}
               </h4>
             </div>
             <div className="flex-1">
@@ -73,11 +84,10 @@ export const CapitalSummaryChartsSection = () => {
             </div>
           </div>
 
-          {/* Industry Pie Chart Container */}
           <div className="flex flex-col h-full">
             <div className="h-[28px] mb-2">
               <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest leading-tight">
-                Transacciones de empresas mexicanas por industria - YTD 2025
+                {issuerTypeDataset.Chart_Title}
               </h4>
             </div>
             <div className="flex-1 flex flex-col">
@@ -96,13 +106,11 @@ export const CapitalSummaryChartsSection = () => {
           </div>
         </div>
 
-        {/* Bottom row - Follow Ons and Rights Offerings */}
         <div className="grid grid-cols-2 gap-8 h-[210px]">
-          {/* Follow Ons Chart Container */}
           <div className="flex flex-col h-full">
             <div className="h-[28px] mb-2">
               <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest leading-tight">
-                Número de transacciones y valor acumulado de Follow Ons
+                {followOnDataset.Chart_Title}
               </h4>
             </div>
             <div className="flex-1">
@@ -119,11 +127,10 @@ export const CapitalSummaryChartsSection = () => {
             </div>
           </div>
 
-          {/* Rights Offerings Chart Container */}
           <div className="flex flex-col h-full">
             <div className="h-[28px] mb-2">
               <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest leading-tight">
-                Número de transacciones y valor acumulado de Rights Offerings
+                {rightsDataset.Chart_Title}
               </h4>
             </div>
             <div className="flex-1">

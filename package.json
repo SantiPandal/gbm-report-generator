@@ -10,7 +10,9 @@
     "screenshot": "./scripts/take-screenshot.sh",
     "screenshot:window": "./scripts/take-screenshot.sh -W",
     "clean:screenshots": "node scripts/screenshot-cleanup.js",
-    "clean:tmp": "rm -rf tmp/"
+    "clean:tmp": "rm -rf tmp/",
+    "parse:report": "ts-node --esm scripts/parse-report-data.ts",
+    "print:report": "node scripts/print-report.mjs"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.0",
@@ -21,7 +23,8 @@
     "react-dom": "19.1.0",
     "react-dropzone": "^14.3.8",
     "react-to-pdf": "^2.0.1",
-    "recharts": "^3.1.2"
+    "recharts": "^3.1.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -33,7 +36,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.5",
+    "puppeteer": "^23.7.0",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

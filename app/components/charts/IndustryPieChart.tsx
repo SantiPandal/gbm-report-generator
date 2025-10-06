@@ -14,11 +14,15 @@ interface IndustryPieChartProps {
   outerRadius?: number;
 }
 
-export const IndustryPieChart = ({ 
+export const IndustryPieChart = ({
   data,
   innerRadius = 36, // Reduced by 20% from 45
   outerRadius = 60 // Reduced by 20% from 75
 }: IndustryPieChartProps) => {
+  // Early return if no data
+  if (!data || data.length === 0) {
+    return <div className="w-full h-full flex items-center justify-center text-gray-400">No data available</div>;
+  }
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -59,7 +63,8 @@ export const IndustryPieChart = ({
   };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <div className="relative w-full" style={{ height: '200px' }}>
+      <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie
           data={data}
@@ -79,5 +84,6 @@ export const IndustryPieChart = ({
         <Tooltip content={<CustomTooltip />} />
       </PieChart>
     </ResponsiveContainer>
+    </div>
   );
 };

@@ -3,66 +3,17 @@
 import { SectionFrame } from '../SectionFrame';
 import { SectionHeader } from '../SectionHeader';
 import { colors } from '@/lib/design/tokens';
-
-interface CapitalIssuanceRow {
-  instrumentType: string;
-  clave: string;
-  serie: string;
-  offeringType: string;
-  paymentDate: string;
-  issuedTitles: string;
-  placementPrice: string;
-  amountPlaced: string;
-}
-
-const capitalIssuances2025: CapitalIssuanceRow[] = [
-  {
-    instrumentType: 'Fibra E',
-    clave: 'XFRA',
-    serie: '22',
-    offeringType: 'Follow-on',
-    paymentDate: '02/06/2025',
-    issuedTitles: '257',
-    placementPrice: '20',
-    amountPlaced: '5,148'
-  },
-  {
-    instrumentType: 'Fibra E',
-    clave: 'FIEMEX',
-    serie: '25-2D',
-    offeringType: 'Emisión inicial (non-cash OPI)',
-    paymentDate: '16/06/2025',
-    issuedTitles: '21',
-    placementPrice: '103',
-    amountPlaced: '2,208'
-  },
-  {
-    instrumentType: 'Fibra E',
-    clave: 'FIEMEX',
-    serie: '25D',
-    offeringType: 'Emisión inicial (non-cash OPI)',
-    paymentDate: '16/06/2025',
-    issuedTitles: '22',
-    placementPrice: '103',
-    amountPlaced: '2,293'
-  },
-  {
-    instrumentType: 'Fibra E',
-    clave: 'FNEXT',
-    serie: 'NEXT25',
-    offeringType: 'Emisión inicial',
-    paymentDate: '24/07/2025',
-    issuedTitles: '80',
-    placementPrice: '100',
-    amountPlaced: '8,000'
-  }
-];
+import { useReportData } from '@/app/data-map/ReportDataContext';
 
 export const CapitalIssuance2025Section = () => {
+  const reportData = useReportData();
+  const dataset = reportData['3_1'];
+  const issuances = dataset.Data;
+
   return (
     <SectionFrame height={210} padding={16}>
       <SectionHeader
-        title="Emisiones de Capital en México 2025"
+        title={dataset.Section_Title}
         period="Montos en Ps.$ MM"
         borderColor={colors.primaryBlue}
       />
@@ -82,19 +33,19 @@ export const CapitalIssuance2025Section = () => {
             </tr>
           </thead>
           <tbody>
-            {capitalIssuances2025.map((issuance, index) => (
+            {issuances.map((issuance, index) => (
               <tr
-                key={`${issuance.instrumentType}-${issuance.clave}-${issuance.serie}`}
+                key={`${issuance.Instrument_Type}-${issuance.Ticker}-${issuance.Series}-${index}`}
                 className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
               >
-                <td className="py-1.5 px-2 font-semibold text-[#2d3748]">{issuance.instrumentType}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.clave}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.serie}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.offeringType}</td>
-                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.paymentDate}</td>
-                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.issuedTitles}</td>
-                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.placementPrice}</td>
-                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.amountPlaced}</td>
+                <td className="py-1.5 px-2 font-semibold text-[#2d3748]">{issuance.Instrument_Type}</td>
+                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.Ticker}</td>
+                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.Series}</td>
+                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.Placement_Type}</td>
+                <td className="py-1.5 px-2 text-[#4a5568]">{issuance.Payment_Date}</td>
+                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.Shares_Issued_MM ?? ''}</td>
+                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.Placement_Price_MXN ?? ''}</td>
+                <td className="py-1.5 px-2 text-right text-[#2d3748]">{issuance.Amount_Placed_MXN_MM?.toLocaleString('es-MX') ?? issuance.Amount_Placed_MXN_MM}</td>
               </tr>
             ))}
           </tbody>

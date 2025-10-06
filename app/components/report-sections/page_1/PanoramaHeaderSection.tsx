@@ -3,6 +3,7 @@
 import { SectionFrame } from '../SectionFrame';
 import { SectionHeader } from '../SectionHeader';
 import { EditorQuoteChart } from '../../charts/EditorQuoteChart';
+import { useReportData } from '@/app/data-map/ReportDataContext';
 
 // CHARACTER LIMITS - STRICTLY ENFORCED FOR DATA GENERATION
 const CHAR_LIMITS = {
@@ -39,12 +40,34 @@ interface PanoramaHeaderSectionProps {
 }
 
 export const PanoramaHeaderSection = ({ period = "Enero - Julio 2025" }: PanoramaHeaderSectionProps) => {
+  const reportData = useReportData();
+  const marketOverview = reportData['0_1'];
+
   // Validate all text content against character limits
-  const sectionTitle = validateText("Panorama del mercado M&A, ECM y DCM – México", CHAR_LIMITS.sectionTitle, "sectionTitle");
+  const sectionTitle = validateText(marketOverview.Market_Overview_Title, CHAR_LIMITS.sectionTitle, "sectionTitle");
   const sectionHeader = validateText("Hechos Destacados", CHAR_LIMITS.sectionHeader, "sectionHeader");
-  const articleTitle = validateText("El Regreso de las Grandes Ofertas", CHAR_LIMITS.articleTitle, "articleTitle");
-  const authorName = validateText("Javier Pagani", CHAR_LIMITS.authorName, "authorName");
-  const authorTitle = validateText("Head Investment Banking GBM", CHAR_LIMITS.authorTitle, "authorTitle");
+  const articleTitle = validateText(marketOverview.Article_Title, CHAR_LIMITS.articleTitle, "articleTitle");
+  const authorName = validateText(marketOverview.Article_Author, CHAR_LIMITS.authorName, "authorName");
+  const authorTitle = validateText(marketOverview.Author_Professional_Title, CHAR_LIMITS.authorTitle, "authorTitle");
+  const highlights = [marketOverview.Highlight_1, marketOverview.Highlight_2]
+    .filter((highlight): highlight is string => Boolean(highlight))
+    .map((highlight, index) =>
+      validateText(highlight, CHAR_LIMITS.hechosDestacadosParagraph, `highlight${index + 1}`)
+    );
+
+  const articleContent = validateText(
+    marketOverview.Article_Content,
+    CHAR_LIMITS.articleContent,
+    "articleContent"
+  );
+
+  const authorInitials = authorName
+    .split(' ')
+    .filter((part) => part.length > 0)
+    .map((part) => part[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase();
   return (
     <SectionFrame>
       {/* Section Header */}
@@ -55,7 +78,7 @@ export const PanoramaHeaderSection = ({ period = "Enero - Julio 2025" }: Panoram
       />
 
       {/* Main Content - Adjusted Layout with Larger Quote Section */}
-      <div className="h-[340px] flex gap-6 overflow-hidden">
+      <div className="h-[220px] flex gap-6 overflow-hidden">
         {/* Left Side - Hechos Destacados with 2 paragraphs (narrower) */}
         <div className="w-[200px] h-full flex flex-col overflow-hidden">
           <h3 className="text-xs font-semibold text-[#2d3748] uppercase tracking-[0.5px] mb-3 border-b border-[#e2e8f0] pb-2 truncate">
@@ -64,19 +87,18 @@ export const PanoramaHeaderSection = ({ period = "Enero - Julio 2025" }: Panoram
 
           {/* Two paragraph sections */}
           <div className="flex-1 flex flex-col gap-3 overflow-hidden">
-            {/* First Paragraph */}
-            <div className="bg-gradient-to-br from-white to-[#f8fafc] rounded-md p-2 border border-[#e2e8f0] overflow-hidden">
-              <p className="text-[10px] text-[#4a5568] leading-[1.3]">
-                El mercado mexicano registró <strong className="text-[#2c5282] font-semibold">29 transacciones M&A</strong> completadas en 2025 YTD, destacando el deal <strong className="text-[#2c5282] font-semibold">Pinfra + Altamira</strong> por US$ 800MM. El sector de infraestructura lidera con 40% del volumen total, seguido por tecnología (25%) y retail (15%). Los fondos de private equity participaron en 18 de las 29 operaciones, demostrando apetito por activos mexicanos. El valor promedio por transacción alcanzó US$ 280MM, superando el promedio histórico de US$ 180MM. Se esperan 12 operaciones adicionales antes del cierre del año, incluyendo 3 mega-deals superiores a US$ 1B cada uno en los sectores de energía renovable, telecomunicaciones y servicios financieros.
-              </p>
-            </div>
-
-            {/* Second Paragraph */}
-            <div className="bg-gradient-to-br from-[#f7fafc] to-white rounded-md p-2 border border-[#e2e8f0] overflow-hidden">
-              <p className="text-[10px] text-[#4a5568] leading-[1.3]">
-                <strong className="text-[#4a90e2] font-semibold">Fibra Next</strong> marcó un hito histórico con su IPO de Ps. 8.0B, la mayor oferta pública inicial en México en 6+ años. El mercado de ECM muestra señales de reactivación con 4 IPOs completados YTD y un pipeline de 8 emisores potenciales para 2025-2026. En DCM, las emisiones corporativas alcanzaron Ps. 120B YTD, un incremento del 35% vs. 2024. Los bonos sustentables representan 45% del volumen total emitido, reflejando el compromiso ESG del mercado. La demanda institucional internacional regresó con fuerza, representando 60% de la colocación en las últimas 5 emisiones. Las tasas de interés estables y el grado de inversión soberano crean condiciones óptimas para nuevas emisiones.
-              </p>
-            </div>
+            {highlights.map((highlight, index) => (
+              <div
+                key={index}
+                className={`rounded-md p-2 border border-[#e2e8f0] overflow-hidden ${
+                  index % 2 === 0 ? 'bg-gradient-to-br from-white to-[#f8fafc]' : 'bg-gradient-to-br from-[#f7fafc] to-white'
+                }`}
+              >
+                <p className="text-[10px] text-[#4a5568] leading-[1.3]">
+                  {highlight}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -86,10 +108,10 @@ export const PanoramaHeaderSection = ({ period = "Enero - Julio 2025" }: Panoram
             title={articleTitle}
             authorName={authorName}
             authorTitle={authorTitle}
-            authorInitials="JP"
+            authorInitials={authorInitials || 'NA'}
             content={
               <>
-                El mercado mexicano atraviesa un momento decisivo. <strong className="text-[#2d3748] font-semibold not-italic">Fibra Next</strong> marcó el mayor IPO en 6+ años con Ps. 8B, señalando el retorno de la confianza institucional. Las <strong className="text-[#2d3748] font-semibold not-italic">29 operaciones M&A</strong> completadas YTD, lideradas por el deal Pinfra-Altamira de US$800MM, demuestran un apetito renovado por transacciones transformacionales. El sector de infraestructura domina con 40% del volumen total, mientras que tecnología y retail emergen como nuevos catalizadores de crecimiento. Esperamos un cierre de año robusto con pipelines activos en energía renovable, nearshoring y consolidación bancaria, posicionando a México como destino preferente para capital institucional. El momentum sugiere que 2025 será un año récord en actividad transformacional de mercados de capital, con múltiples mega-deals en proceso y fuerte interés internacional. La convergencia de factores macro favorables y reformas estructurales crea una ventana única de oportunidad para transacciones de alto impacto. Anticipamos actividad sostenida en todos los segmentos: M&A, ECM y DCM, con volúmenes que podrían superar los US$15B anuales. Este es el momento de México.
+                {articleContent}
               </>
             }
           />

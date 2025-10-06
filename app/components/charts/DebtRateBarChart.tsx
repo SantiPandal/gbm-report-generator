@@ -57,7 +57,7 @@ export const DebtRateBarChart = ({ data, height = 180 }: DebtRateBarChartProps) 
             <LabelList
               dataKey="total"
               position="top"
-              formatter={(value: number) => formatCurrency(value)}
+              formatter={(value) => formatCurrency(value as number)}
               fill={colors.mediumGray}
               fontSize={9}
               offset={8}

@@ -12,16 +12,22 @@ type SectionFrameProps = {
 };
 
 export function SectionFrame({
-  height = layout.sectionHeightPx,
+  height,
   padding = layout.sectionPaddingPx,
   debug = false,
   className = '',
   children,
 }: SectionFrameProps) {
+  // Use flexible height by default, fixed height only when explicitly provided
+  const heightStyle = height
+    ? { height, padding, margin: 0, boxSizing: 'border-box' as const }
+    : { padding, margin: 0, boxSizing: 'border-box' as const };
+  const heightClass = height ? '' : 'flex-1 min-h-[280px]';
+  
   return (
     <div
-      className={`w-full bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden ${debug ? 'outline outline-1 outline-red-500' : ''} ${className}`}
-      style={{ height, padding, margin: 0, boxSizing: 'border-box' }}
+      className={`w-full bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden ${heightClass} ${debug ? 'outline outline-1 outline-red-500' : ''} ${className}`}
+      style={heightStyle}
     >
       {children}
     </div>

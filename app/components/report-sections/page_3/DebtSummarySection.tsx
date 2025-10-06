@@ -5,34 +5,44 @@ import { SectionHeader } from '../SectionHeader';
 import { colors } from '@/lib/design/tokens';
 import { DebtRateBarChart, type DebtRateDatum } from '../../charts/DebtRateBarChart';
 import { DebtRatingBarChart, type DebtRatingDatum } from '../../charts/DebtRatingBarChart';
-
-const rateData: DebtRateDatum[] = [
-  { year: '2022', fija: 61, variable: 39, total: 103_477 },
-  { year: '2023', fija: 64, variable: 36, total: 112_050 },
-  { year: '2024', fija: 63, variable: 37, total: 123_334 },
-  { year: '2025 YTD', fija: 60, variable: 40, total: 86_860 },
-];
-
-const ratingData: DebtRatingDatum[] = [
-  { year: '2022', aaa: 68, aa: 24, a: 8, total: 103_477 },
-  { year: '2023', aaa: 81, aa: 17, a: 2, total: 112_050 },
-  { year: '2024', aaa: 80, aa: 10, a: 10, total: 123_334 },
-  { year: '2025 YTD', aaa: 85, aa: 9, a: 6, total: 86_860 },
-];
+import { useReportData } from '@/app/data-map/ReportDataContext';
 
 export const DebtSummarySection = () => {
+  const reportData = useReportData();
+  const rateDataset = reportData['2_0_A'];
+  const ratingDataset = reportData['2_0_B'];
+
+  const rateData: DebtRateDatum[] = rateDataset.Data.map((row) => ({
+    year: row.Year,
+    fija: row.Fixed_Rate_Percentage ?? 0,
+    variable: row.Variable_Rate_Percentage ?? 0,
+    total: row.Total_Amount_MXN_MM ?? 0,
+  }));
+
+  const ratingData: DebtRatingDatum[] = ratingDataset.Data.map((row) => ({
+    year: row.Year,
+    aaa: row.AAA_Percentage ?? 0,
+    aa: row.AA_Percentage ?? 0,
+    a: row.A_Percentage ?? 0,
+    total: row.Total_Amount_MXN_MM ?? 0,
+  }));
+
+  const periodLabel = rateData.length > 1
+    ? `${rateData[0].year} - ${rateData[rateData.length - 1].year}`
+    : rateData[0]?.year ?? '';
+
   return (
     <SectionFrame height={280} padding={16}>
       <SectionHeader
-        title="Resumen de Emisiones de Deuda en México"
-        period="2022 - 2025 YTD"
+        title={rateDataset.Section_Title}
+        period={periodLabel}
         borderColor={colors.primaryBlue}
       />
 
       <div className="grid grid-cols-2 gap-6 h-[200px]">
         <div className="flex flex-col h-full">
           <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest mb-2">
-            Monto emitido local por tasa
+            {rateDataset.Chart_Title}
           </h4>
           <DebtRateBarChart data={rateData} />
           <div className="mt-3 flex items-center gap-4 text-[9px] text-[#4a5568]">
@@ -48,8 +58,8 @@ export const DebtSummarySection = () => {
         </div>
 
         <div className="flex flex-col h-full">
-          <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest mb-2">
-            Emisiones por calificación crediticia
+          <h4 className="text-[10px] font-semibold text-[#2d3748] uppercase tracking-widest mb-[0.6rem]">
+            {ratingDataset.Chart_Title}
           </h4>
           <DebtRatingBarChart data={ratingData} />
           <div className="mt-3 flex items-center gap-4 text-[9px] text-[#4a5568] flex-wrap">

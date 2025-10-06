@@ -32,12 +32,17 @@ export const HistoricalValueChart = ({
     return null;
   };
 
+  // Early return if no data
+  if (!data || data.length === 0) {
+    return <div className="w-full h-full flex items-center justify-center text-gray-400">No data available</div>;
+  }
+
   return (
-    <div className="relative w-full h-full scale-120 origin-center">
-      <ResponsiveContainer width="100%" height="100%">
-        <ComposedChart 
+    <div className="relative w-full" style={{ height: '200px' }}>
+      <ResponsiveContainer width="100%" height={200}>
+        <ComposedChart
           data={data}
-          margin={{ top: 6, right: 24, left: 24, bottom: 10 }}
+          margin={{ top: 20, right: 30, left: 30, bottom: 20 }}
           barCategoryGap="15%"
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />

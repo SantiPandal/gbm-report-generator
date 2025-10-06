@@ -1,201 +1,238 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Download, Maximize2 } from 'lucide-react';
+import { useEffect, useState, type DetailedHTMLProps, type HTMLAttributes, type ReactElement } from 'react';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+
+// Removed custom page element declaration - using div with page-container class instead
+import Page0 from '../components/report-sections/page_0/Page0';
 import { Page1 } from '../components/report-sections/page_1/Page1';
 import { Page2 } from '../components/report-sections/page_2/Page2';
 import { Page3 } from '../components/report-sections/page_3/Page3';
+import { Page3Continuation } from '../components/report-sections/page_3/Page3Continuation';
 import { Page4 } from '../components/report-sections/page_4/Page4';
+import { Page5 } from '../components/report-sections/page_5/Page5';
+import { ReportDataProvider } from '../data-map/ReportDataContext';
+import type { ReportData } from '../data-map/types';
+import { mockReportData } from '../data-map/mockReportData';
+import { REPORT_DATA_STORAGE_KEY } from '../data-map/storage';
 
 export default function PreviewPage() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [scale, setScale] = useState(0.75); // Optimized for MacBook Air M2 13" (1470 × 956)
-  
+  const [reportData, setReportData] = useState<ReportData>(mockReportData);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    try {
+      const stored = sessionStorage.getItem(REPORT_DATA_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as ReportData;
+        setReportData(parsed);
+      }
+    } catch (error) {
+      console.error('Failed to load report data from sessionStorage', error);
+    }
+  }, []);
+
+  return (
+    <ReportDataProvider value={reportData}>
+      <PreviewContent />
+    </ReportDataProvider>
+  );
+}
+
+const PreviewContent = () => {
+  const scale = 0.75;
   // Create array of pages. Use full-page aggregators where available
   const page2Result = Page2();
   const page2Pages = Array.isArray(page2Result) ? page2Result : [page2Result];
+  const page3ContinuationResult = Page3Continuation();
+  const page3ContinuationPages = page3ContinuationResult
+    ? Array.isArray(page3ContinuationResult)
+      ? page3ContinuationResult
+      : [page3ContinuationResult]
+    : [];
 
   const pages = [
+    <Page0 key="page0" />,
     <Page1 key="page1" />,
     ...page2Pages,
     <Page3 key="page3" />,
+    ...page3ContinuationPages,
     <Page4 key="page4" />,
+    <Page5 key="page5" />,
   ];
 
-  const currentContent = pages[currentPage];
-  
-  const nextPage = () => {
-    setCurrentPage((prev) => (prev + 1) % pages.length);
-  };
-  
-  const prevPage = () => {
-    setCurrentPage((prev) => (prev - 1 + pages.length) % pages.length);
-  };
-  
+  const totalPages = pages.length;
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-semibold text-gray-900">Vista Previa A4</h1>
-            <span className="text-sm text-gray-500">
-              Página {currentPage + 1} de {pages.length}
-            </span>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            {/* Zoom controls - MacBook Air optimized */}
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setScale(0.5)}
-                className={`px-2 py-1 text-sm rounded ${scale === 0.5 ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
-              >
-                50%
-              </button>
-              <button
-                onClick={() => setScale(0.75)}
-                className={`px-2 py-1 text-sm rounded ${scale === 0.75 ? 'bg-blue-100 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-100'}`}
-              >
-                75%
-              </button>
-              <button
-                onClick={() => setScale(0.9)}
-                className={`px-2 py-1 text-sm rounded ${scale === 0.9 ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
-              >
-                90%
-              </button>
-              <button
-                onClick={() => setScale(1)}
-                className={`px-2 py-1 text-sm rounded ${scale === 1 ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
-              >
-                100%
-              </button>
-            </div>
-            
-            <div className="h-6 w-px bg-gray-300" />
-            
-            {/* Actions */}
-            <button className="p-2 text-gray-600 hover:bg-gray-100 rounded">
-              <Maximize2 className="w-4 h-4" />
-            </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-2">
-              <Download className="w-4 h-4" />
-              <span>Exportar Página</span>
-            </button>
-          </div>
-        </div>
+      <div className="px-6 pt-6 print-hide">
+        <Link
+          href="/"
+          className="inline-flex items-center space-x-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm hover:bg-gray-100"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          <span>Regresar</span>
+        </Link>
       </div>
-      
-      {/* Main content - A4 Page - Optimized for MacBook Air */}
-      <div className="flex-1 flex items-center justify-center p-6 overflow-auto" style={{ minHeight: 'calc(100vh - 140px)' }}>
-        <div className="relative">
-          {/* A4 Page container with shadow - Fixed scaling */}
-          <div 
-            className="bg-white shadow-lg border border-gray-300"
-            style={{
-              width: '210mm',
-              height: '297mm',
-              transform: `scale(${scale})`,
-              transformOrigin: 'center',
-              maxWidth: '794px',
-              maxHeight: '1123px'
-            }}
-          >
-            {/* Actual A4 content at full size */}
-            <div 
-              className="w-full h-full"
-              style={{
-                width: '210mm',
-                height: '297mm',
-                padding: '15mm',
-                display: 'flex',
-                flexDirection: 'column',
-                boxSizing: 'border-box'
-              }}
-            >
-              {/* Page Header */}
-              <div className="text-center mb-6 pb-4 border-b border-gray-200">
-                <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider">
-                  Reporte de Fusiones y Adquisiciones - México
-                </h2>
-                <div className="text-xs text-gray-400 mt-1">
-                  Página {currentPage + 1} de {pages.length}
-                </div>
-              </div>
-              
-              {/* Page content - Supports full-page components and legacy section arrays */}
-              <div className="flex-1 flex flex-col justify-between" style={{ minHeight: 'calc(297mm - 30mm - 120px)' }}>
-                {Array.isArray(currentContent) ? (
-                  currentContent.map((section: React.ReactElement, sectionIndex: number) => (
-                    <div 
-                      key={sectionIndex}
-                      className="flex-1"
-                      style={{ 
-                        minHeight: '280px',
-                        maxHeight: '280px',
-                        marginBottom: sectionIndex < currentContent.length - 1 ? '8px' : '0'
+
+      {/* Main content - scrollable A4 stack */}
+      <div className="flex-1 overflow-auto p-6 print-main" style={{ minHeight: 'calc(100vh - 120px)' }}>
+        <div
+          className="mx-auto flex w-full max-w-5xl flex-col items-center space-y-10 print-stack"
+          data-report-ready="true"
+        >
+          {pages.map((pageContent, pageIndex) => {
+            const sections = Array.isArray(pageContent)
+              ? pageContent
+              : ([pageContent] as ReactElement[]);
+
+            // Page0 gets special treatment - no padding and no footer
+            if (pageIndex === 0) {
+              return (
+                <div key={`preview-page-${pageIndex}`} className="w-full flex justify-center">
+                  <div
+                    className="page-container print-page bg-white shadow-lg border border-gray-300"
+                    style={{
+                      width: '210mm',
+                      minHeight: '297mm',
+                      transform: `scale(${scale})`,
+                      transformOrigin: 'top center',
+                      maxWidth: '794px',
+                      margin: '0 auto',
+                      display: 'block',
+                    }}
+                  >
+                    <div
+                      className="w-full h-full"
+                      style={{
+                        width: '210mm',
+                        minHeight: '297mm',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        boxSizing: 'border-box',
                       }}
                     >
-                      {section}
+                      {sections[0]}
                     </div>
-                  ))
-                ) : (
-                  currentContent
-                )}
-              </div>
-              
-              {/* Page Footer */}
-              <div className="mt-6 pt-4 border-t border-gray-200 text-center">
-                <div className="text-xs text-gray-400">
-                  Confidencial y Propietario • GBM Investment Banking
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div key={`preview-page-${pageIndex}`} className="w-full flex justify-center">
+                <div
+                  className="page-container print-page bg-white shadow-lg border border-gray-300"
+                  style={{
+                    width: '210mm',
+                    minHeight: '297mm',
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'top center',
+                    maxWidth: '794px',
+                    margin: '0 auto',
+                    display: 'block',
+                  }}
+                >
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      width: '210mm',
+                      minHeight: '297mm',
+                      padding: '15mm',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <div className="flex-1 flex flex-col gap-2">
+                      {sections.length > 1 ? (
+                        sections.map((section, sectionIndex) => (
+                          <div
+                            key={`preview-page-${pageIndex}-section-${sectionIndex}`}
+                            className="flex-1"
+                            style={{
+                              minHeight: '280px',
+                              maxHeight: '280px',
+                              marginBottom: sectionIndex < sections.length - 1 ? '8px' : '0',
+                            }}
+                          >
+                            {section}
+                          </div>
+                        ))
+                      ) : (
+                        sections[0]
+                      )}
+                    </div>
+
+                    <div className="mt-2 pt-2 border-t border-gray-200 flex items-center justify-between text-xs text-gray-400">
+                      <div>Confidencial y Propietario • GBM Investment Banking</div>
+                      <div className="text-[10px] text-gray-400">Página {pageIndex} de {totalPages}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Navigation buttons */}
-          {pages.length > 1 && (
-            <>
-              <button
-                onClick={prevPage}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-16 p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
-                disabled={currentPage === 0}
-              >
-                <ChevronLeft className="w-5 h-5 text-gray-600" />
-              </button>
-              <button
-                onClick={nextPage}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-16 p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
-                disabled={currentPage === pages.length - 1}
-              >
-                <ChevronRight className="w-5 h-5 text-gray-600" />
-              </button>
-            </>
-          )}
+            );
+          })}
         </div>
       </div>
-      
-      {/* Footer with page navigation */}
-      <div className="bg-white border-t border-gray-200 px-6 py-4">
-        <div className="flex space-x-2 justify-center">
-          {pages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index)}
-              className={`
-                px-3 py-1.5 text-sm rounded-lg transition-colors
-                ${index === currentPage 
-                  ? 'bg-blue-100 text-blue-700 font-medium' 
-                  : 'text-gray-600 hover:bg-gray-100'
-                }
-              `}
-            >
-              Página {index + 1}
-            </button>
-          ))}
-        </div>
-      </div>
+
+      <style jsx global>{`
+        .page-container {
+          display: block;
+        }
+        .print-hide {
+          display: block;
+        }
+        @media print {
+          @page {
+            size: A4;
+            margin: 0;
+          }
+          html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #ffffff !important;
+          }
+          body {
+            background: #ffffff !important;
+          }
+          .print-hide {
+            display: none !important;
+          }
+          .print-stack {
+            width: 210mm !important;
+            max-width: 210mm !important;
+            gap: 0 !important;
+            align-items: stretch !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+          }
+          .print-main {
+            padding: 0 !important;
+          }
+          .print-stack > div {
+            margin: 0 !important;
+            width: 210mm !important;
+            display: block !important;
+          }
+          .print-stack > :not([hidden]) ~ :not([hidden]) {
+            margin-top: 0 !important;
+          }
+          .page-container {
+            box-shadow: none !important;
+            border: none !important;
+            transform: none !important;
+            page-break-after: always;
+          }
+          .page-container:last-of-type {
+            page-break-after: auto;
+          }
+        }
+      `}</style>
     </div>
   );
-}
+};

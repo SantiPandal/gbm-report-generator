@@ -1,10 +1,17 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { colors, typography, layout, borders } from '@/lib/design/tokens';
+import { colors, typography, layout } from '@/lib/design/tokens';
 
 // A4 dimensions in points (595.28 x 841.89)
 const A4_WIDTH = 595.28;
 const A4_HEIGHT = 841.89;
+
+const pdfBorders = {
+  header: { width: 2, color: colors.primaryBlue },
+  footer: { width: 1, color: colors.paleGray },
+  statsTop: { width: 3, color: colors.mediumBlue },
+  cardLeft: { width: 4, color: colors.mediumBlue },
+};
 
 export const styles = StyleSheet.create({
   // A4 Page Layout
@@ -20,7 +27,8 @@ export const styles = StyleSheet.create({
   
   // Header and Footer
   pageHeader: {
-    borderBottom: borders.headerBorder,
+    borderBottomWidth: pdfBorders.header.width,
+    borderBottomColor: pdfBorders.header.color,
     paddingBottom: layout.headerPaddingBottom,
     marginBottom: layout.headerMarginBottom,
     flexDirection: 'row',
@@ -29,7 +37,8 @@ export const styles = StyleSheet.create({
   },
   
   pageFooter: {
-    borderTop: borders.footerBorder,
+    borderTopWidth: pdfBorders.footer.width,
+    borderTopColor: pdfBorders.footer.color,
     paddingTop: 15,
     marginTop: 'auto',
     flexDirection: 'row',
@@ -79,7 +88,8 @@ export const styles = StyleSheet.create({
     borderRadius: layout.statsBorderRadius,
     padding: layout.statsContainerPadding,
     marginVertical: 25,
-    borderTop: borders.statsBorder,
+    borderTopWidth: pdfBorders.statsTop.width,
+    borderTopColor: pdfBorders.statsTop.color,
   },
   
   statBox: {
@@ -111,7 +121,8 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.backgroundGray,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: `${layout.statsBorderRadius}px ${layout.statsBorderRadius}px 0 0`,
+    borderTopLeftRadius: layout.statsBorderRadius,
+    borderTopRightRadius: layout.statsBorderRadius,
   },
   
   tableRow: {
@@ -143,7 +154,8 @@ export const styles = StyleSheet.create({
     padding: 20,
     borderRadius: layout.statsBorderRadius,
     marginVertical: 15,
-    borderLeft: `4px solid ${colors.mediumBlue}`,
+    borderLeftWidth: pdfBorders.cardLeft.width,
+    borderLeftColor: pdfBorders.cardLeft.color,
   },
   
   cardTitle: {

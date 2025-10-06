@@ -1,27 +1,81 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import type { ReportData } from '@/app/data-map/types';
+import { useRouter } from 'next/navigation';
+import { REPORT_DATA_STORAGE_KEY } from '@/app/data-map/storage';
+
+// Simple confetti effect
+const createConfetti = () => {
+  const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'];
+  const confettiCount = 50;
+  
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.width = '10px';
+    confetti.style.height = '10px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.top = '-10px';
+    confetti.style.zIndex = '9999';
+    confetti.style.borderRadius = '50%';
+    confetti.style.pointerEvents = 'none';
+    
+    document.body.appendChild(confetti);
+    
+    const animation = confetti.animate([
+      { 
+        transform: 'translateY(0px) rotate(0deg)', 
+        opacity: 1 
+      },
+      { 
+        transform: `translateY(${window.innerHeight + 100}px) rotate(720deg)`, 
+        opacity: 0 
+      }
+    ], {
+      duration: 3000 + Math.random() * 2000,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    });
+    
+    animation.onfinish = () => {
+      confetti.remove();
+    };
+  }
+};
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reportData, setReportData] = useState<ReportData | null>(null);
+  const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const csvFile = acceptedFiles[0];
-    if (csvFile && (csvFile.type === 'text/csv' || csvFile.name.endsWith('.csv'))) {
-      setFile(csvFile);
+    const uploadedFile = acceptedFiles[0];
+    if (
+      uploadedFile &&
+      (
+        uploadedFile.name.toLowerCase().endsWith('.xlsx') ||
+        uploadedFile.name.toLowerCase().endsWith('.xls') ||
+        uploadedFile.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        uploadedFile.type === 'application/vnd.ms-excel'
+      )
+    ) {
+      setFile(uploadedFile);
       setError(null);
+      setReportData(null);
     } else {
-      setError('Please upload a CSV file');
+      setError('Please upload an XLSX file');
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'text/csv': ['.csv']
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
+      'application/vnd.ms-excel': ['.xls']
     },
     multiple: false
   });
@@ -34,7 +88,7 @@ export default function Home() {
 
     try {
       const formData = new FormData();
-      formData.append('csvFile', file);
+      formData.append('xlsxFile', file);
 
       const response = await fetch('/api/generate-pdf', {
         method: 'POST',
@@ -46,19 +100,24 @@ export default function Home() {
         throw new Error(errorData.error || 'Failed to generate report');
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = `ma-report-${new Date().getTime()}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-      
-      // Reset after successful generation
-      setFile(null);
+      const { reportData } = (await response.json()) as { reportData: ReportData };
+      setReportData(reportData);
+
+      // 🎉 Confetti celebration!
+      createConfetti();
+
+      try {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem(REPORT_DATA_STORAGE_KEY, JSON.stringify(reportData));
+        }
+      } catch (storageError) {
+        console.error('Failed to persist report data in sessionStorage', storageError);
+      }
+
+      // Smooth transition delay - let the celebration sink in
+      setTimeout(() => {
+        router.push('/preview?source=upload');
+      }, 1000);
     } catch (err) {
       setError((err as Error)?.message || 'Failed to generate report. Please try again.');
     } finally {
@@ -66,8 +125,18 @@ export default function Home() {
     }
   };
 
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      {/* GBM Logo - Top Left */}
+      <div className="absolute top-4 left-4">
+        <img 
+          src="/Logo_de_GBM.svg" 
+          alt="GBM Logo" 
+          className="h-8 w-auto"
+        />
+      </div>
+      
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -132,9 +201,9 @@ export default function Home() {
             ) : (
               <div>
                 <p className="text-gray-900 font-medium mb-1">
-                  Choose a file or drag it here
+                  Choose an XLSX file or drag it here
                 </p>
-                <p className="text-sm text-gray-500 mb-2">CSV files up to 10MB</p>
+                <p className="text-sm text-gray-500 mb-2">Excel files up to 10MB</p>
                 <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                   Browse files
                 </button>
@@ -162,6 +231,7 @@ export default function Home() {
                     e.stopPropagation();
                     setFile(null);
                     setError(null);
+                    setReportData(null);
                   }}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
@@ -208,19 +278,31 @@ export default function Home() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Generating report...
+                  Processing workbook...
                 </div>
               ) : (
-                'Generate Report'
+                'Parse Workbook'
               )}
             </button>
+          </div>
+        )}
+
+        {reportData && (
+          <div className="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-gray-800">Workbook Parsed Successfully</h2>
+              <span className="text-xs text-gray-500">{Object.keys(reportData).length} sections</span>
+            </div>
+            <div className="max-h-64 overflow-auto bg-gray-50 border border-gray-200 rounded-md p-3 text-[11px] leading-relaxed text-gray-700 whitespace-pre-wrap">
+              {JSON.stringify(reportData, null, 2)}
+            </div>
           </div>
         )}
 
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-xs text-gray-500">
-            Your data is processed securely and not stored on our servers
+            Tus datos se procesan de forma segura y no se almacenan en nuestros servidores
           </p>
         </div>
       </div>

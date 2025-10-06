@@ -20,9 +20,13 @@ export const EditorQuoteChart = ({
       {/* Compact Header with integrated author info */}
       <div className="border-b border-[#e2e8f0] pb-1.5 mb-2 flex-shrink-0">
         <div className="flex items-start gap-2">
-          {/* Avatar - Smaller */}
-          <div className="w-6 h-6 bg-gradient-to-br from-[#2c5282] to-[#4a90e2] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-            <span className="text-white text-[8px] font-bold">{authorInitials}</span>
+          {/* Avatar - Image */}
+          <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 -mt-1 overflow-hidden">
+            <img 
+              src="https://ox3e409kn3.ufs.sh/f/Ol97b1DLJcZql52Xob12TxCnoQZRIBG9Y0iAyFmtErPk5Uep" 
+              alt={authorName}
+              className="w-full h-full object-cover rounded-full"
+            />
           </div>
 
           {/* Title and Author Info Combined */}
